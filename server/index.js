@@ -3,6 +3,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 require("dotenv").config();
 const {  MONGO_URL, DB_NAME } = process.env;
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const authRoute = require("./Routes/Auth-Route");
 const PORT = 4000;
 const app = express();
 
@@ -16,7 +19,15 @@ mongoose.connect(MONGO_URL, {
 app.listen(PORT, () => {
 console.log(`Server is running on port ${PORT}`);
 });
-
-app.get('/',(req,res)=>{
-    res.send('respons from server');
-})
+app.use(
+    cors({
+      origin: ["http://localhost:3000"],
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      credentials: true,
+    })
+  );
+  app.use(cookieParser());
+  
+  app.use(express.json());
+  
+  app.use("/", authRoute);
