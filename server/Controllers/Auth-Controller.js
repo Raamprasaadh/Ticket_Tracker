@@ -25,20 +25,21 @@ module.exports.Signup = async (req, res, next) => {
   }
 };
 
-module.exports.Login = async (req, res) => {
+module.exports.Logout = async (req, res) => {
     try {
-      req.session.destroy(err => {
-        if (err) {
-          return res.status(500).json({ message: 'Failed to logout' });
-        }
-        res.json({ message: 'Logged out successfully' });
+      res.cookie("token", "", { 
+        httpOnly: false,
+        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+        expires: new Date(0), // Set expiration date to past
       });
+    
+      res.status(200).json({ message: "User logged out successfully", success: true });
     } catch (error) {
       console.error(error);
     }
   }
   
-  module.exports.Logout = async (req, res, next) => {
+  module.exports.Login = async (req, res, next) => {
     try {
       const { email, password } = req.body;
       if(!email || !password ){
