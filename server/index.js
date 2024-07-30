@@ -6,6 +6,7 @@ const {  MONGO_URL, DB_NAME } = process.env;
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const authRoute = require("./Routes/Auth-Route");
+const ticketRoute = require("./Routes/Ticket-Route");
 const PORT = 4000;
 const app = express();
 
@@ -30,4 +31,6 @@ app.use(
   
   app.use(express.json());
   
+  app.use('/tickets', ticketRoute);
   app.use("/", authRoute);
+  
