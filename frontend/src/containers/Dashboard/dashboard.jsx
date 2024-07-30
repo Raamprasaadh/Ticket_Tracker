@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Modal, TextField, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-
+import { useNavigate } from 'react-router-dom';
 // Styles for the Dashboard component
 const useStyles = makeStyles({
   container: {
@@ -35,7 +35,7 @@ const Dashboard = () => {
   const [open, setOpen] = useState(false);
   const [editingTicket, setEditingTicket] = useState(null);
   const [formValues, setFormValues] = useState({ title: '', description: '', status: '' });
-
+  const navigate = useNavigate();
   useEffect(() => {
     fetchTickets();
   }, []);
@@ -92,7 +92,15 @@ const Dashboard = () => {
       console.error('Error deleting ticket:', error);
     }
   };
-
+  const handleLogout = async () => {
+    try {
+      await axios.post('http://localhost:4000/logout');
+      // Redirect to login or home page
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
   return (
     <Container className={classes.container}>
       <Box sx={{'display': 'flex', 'flexDirection':'row', 'justifyContent':'space-between'}}>
@@ -102,7 +110,7 @@ const Dashboard = () => {
       <Button variant="contained" color="primary" onClick={() => handleOpen()} style={{ marginBottom: '1rem' }}>
       Create New Ticket
       </Button>
-      <Button variant="contained" color="secondary" onClick={() => handleOpen()} style={{ marginBottom: '1rem' }}>
+      <Button variant="contained" color="secondary" onClick={() => handleLogout()} style={{ marginBottom: '1rem' }}>
       Logout
       </Button>
       </Box>

@@ -25,7 +25,20 @@ module.exports.Signup = async (req, res, next) => {
   }
 };
 
-module.exports.Login = async (req, res, next) => {
+module.exports.Login = async (req, res) => {
+    try {
+      req.session.destroy(err => {
+        if (err) {
+          return res.status(500).json({ message: 'Failed to logout' });
+        }
+        res.json({ message: 'Logged out successfully' });
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
+  module.exports.Logout = async (req, res, next) => {
     try {
       const { email, password } = req.body;
       if(!email || !password ){
