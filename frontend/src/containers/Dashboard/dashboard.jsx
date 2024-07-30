@@ -42,7 +42,7 @@ const Dashboard = () => {
 
   const fetchTickets = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/tickets');
+      const response = await axios.get('http://localhost:4000/tickets/getAllTickets');
       setTickets(response.data);
     } catch (error) {
       console.error('Error fetching tickets:', error);
@@ -69,10 +69,13 @@ const Dashboard = () => {
     try {
       if (editingTicket) {
         // Update existing ticket
-        await axios.put(`http://localhost:5000/tickets/${editingTicket._id}`, formValues);
+        await axios.put(`http://localhost:4000/tickets/editTicket/`, {
+          id: editingTicket._id,
+          ...formValues
+        });
       } else {
         // Create new ticket
-        await axios.post('http://localhost:5000/tickets', formValues);
+        await axios.post('http://localhost:4000/tickets/createTicket/', formValues);
       }
       fetchTickets();
       handleClose();
@@ -83,7 +86,7 @@ const Dashboard = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/tickets/${id}`);
+      await axios.delete(`http://localhost:4000/tickets/deleteTicket/${id}`,);
       fetchTickets();
     } catch (error) {
       console.error('Error deleting ticket:', error);

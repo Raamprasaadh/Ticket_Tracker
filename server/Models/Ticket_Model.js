@@ -5,7 +5,6 @@ const mongoose = require("mongoose");
 const TicketSchema = new mongoose.Schema({
   title: {
     type: String,
-    unique: true,
     required: [true, "Your Title is required"],
     minlength: [3, 'Description must be at least 3 characters long'],
   },
