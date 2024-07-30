@@ -95,13 +95,19 @@ const Dashboard = () => {
 
   return (
     <Container className={classes.container}>
+      <Box sx={{'display': 'flex', 'flexDirection':'row', 'justifyContent':'space-between'}}>
       <Typography variant="h4" gutterBottom>
         Ticket Dashboard
       </Typography>
       <Button variant="contained" color="primary" onClick={() => handleOpen()} style={{ marginBottom: '1rem' }}>
-        Create New Ticket
+      Create New Ticket
       </Button>
-      <TableContainer component={Paper}>
+      <Button variant="contained" color="secondary" onClick={() => handleOpen()} style={{ marginBottom: '1rem' }}>
+      Logout
+      </Button>
+      </Box>
+        {(tickets?.length > 0)?
+        <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
@@ -129,7 +135,10 @@ const Dashboard = () => {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer>:
+      <Box>Sorry no records found ! please add records !</Box>
+      }
+      
       <Modal open={open} onClose={handleClose}>
         <Box className={classes.modal}>
           <Typography variant="h6" gutterBottom>
